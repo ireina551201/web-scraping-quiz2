@@ -1,9 +1,5 @@
 import requests ,bs4 ,re ,json
 
-#1. 所有書籍資訊存放在<li class='item'>標籤內
-#2. 排行存放在<strong class='no'>標籤
-#3. 價格存放在<li class="price_a">優惠價：<strong><b>79</b></strong>折<strong><b>[價格]</b></strong>元</li>
-
 url = 'https://www.books.com.tw/web/sys_saletopb/books/19?attribute=30'
 books = []
 
@@ -23,7 +19,11 @@ if __name__ == '__main__':
         print(f'{url}請求失敗' ,e)
         exit(1)
     
-    # 解析
+    # 解析:
+    #   1. 所有書籍資訊存放在 <div class='mod_a clearfix'> 標籤內
+    #   2. 每一本書各自存放在 <div class='mod_a clearfix'> --> <li class='item'> 標籤內
+    #   3. 排行存放在 <li class='item'> --> <strong class='no'> 標籤的內容裡
+    #   4. 價格存放在 <li class='item'> --> <li class="price_a"> 標籤的內容裡
     soup = bs4.BeautifulSoup(response.text ,'lxml')
 
     container = soup.select_one('div.mod_a.clearfix')
